@@ -30,6 +30,7 @@ mongoose
 
  //CreateCourse();
 
+
  async function FetchCourses() {
      let course = await courseModel
      //.find({name:"Emma"})
@@ -37,13 +38,45 @@ mongoose
     //  .find({price: {
     //      $in: [100,200,600]
     //  }})
-    .find()
-    .and([{name:"Emma"},{price:200}])
-     .sort("-name")
-     .select("-price")
-     .limit(2);
+    .find();
+    // .and([{name:"Emma"},{price:200}])
+    //  .sort("-name")
+    //  .select("-price")
+    //  .limit(2);
      console.log(course);
  }
- FetchCourses();
-
  
+ //FetchCourses();
+
+
+async function UpdateCourse(id) {
+    // let course = await courseModel.findById(id);
+    // if(!course) { return console.log("invalid id")};
+    // course.name = "mani";
+    // let data = await course.save();
+    // console.log(data);
+
+    // let course = await courseModel.Update({_id:id},{
+    //     $set: {
+    //          price:50000
+    //     }
+    //   }
+    // );
+    // console.log(course); 
+
+    let course = await courseModel.findByIdAndUpdate(id,{
+        $set: {
+             price:40000
+        }
+      }, { new:true });
+    console.log(course);
+}
+
+//UpdateCourse("5e69fa2827270a446091f2fc");
+
+async function RemoveCourse(id){
+    let course = await courseModel.findByIdAndRemove(id);
+    if(!course) { return console.log("invalid id") };
+    console.log("see you next time :'(");
+}
+//RemoveCourse("5e69fd6178e28d38ccd2ec94");
