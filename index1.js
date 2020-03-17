@@ -14,7 +14,8 @@ true, useUnifiedTopology: true })
 
     let courseSchema = new mongoose.Schema({
         name: { type: String},
-        author: { type: mongoose.Schema.Types.ObjectId,ref:"authors"}
+        //author: { type: mongoose.Schema.Types.ObjectId,ref:"authors"}
+        author: [{type: authorSchema}]
     });
 
     let AuthorModel = mongoose.model("authors", authorSchema);
@@ -39,15 +40,26 @@ true, useUnifiedTopology: true })
       };
 
     //CreateAuthor("Rudyard", "www.rudy.com", "USA");
-    //CreateCourse("Something Something part 2", "5e6f212552e95d373451ea05");
+    CreateCourse("Something Something part 3", [new AuthorModel({
+        name: "Nahid Fatima",
+        web: "www.fatima.com",
+        address: "kalyan"
+    }),
+       new AuthorModel({
+        name: "Nahid Fatima Ansari",
+        web: "www.fatimaansari.com",
+        address: "kalyan jn"
+
+       })]
+    );
 
 
     async function AllCourseData() {
         let data = await CourseModel
         .find()
-        .populate("author");
+        .populate("author", "name -_id");
         console.log(data);
 
     }
 
-    AllCourseData();
+    //AllCourseData();
